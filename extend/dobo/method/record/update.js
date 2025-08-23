@@ -1,4 +1,4 @@
-import { getPrefixName } from '../../../lib/misc.js'
+import { getPrefixName } from '../../../../lib/misc.js'
 import getRecord from './get.js'
 
 async function recordUpdate ({ schema, id, body, options = {} } = {}) {

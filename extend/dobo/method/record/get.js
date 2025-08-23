@@ -1,4 +1,4 @@
-import { getPrefixName } from '../../../lib/misc.js'
+import { getPrefixName } from '../../../../lib/misc.js'
 
 async function recordGet ({ schema, id, options = {} } = {}) {
   const { getInfo } = this.app.dobo

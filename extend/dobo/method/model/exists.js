@@ -1,4 +1,4 @@
-import { getIndexName } from '../../../lib/misc.js'
+import { getIndexName } from '../../../../lib/misc.js'
 
 async function modelExists ({ schema, options = {} }) {
   const { getInfo } = this.app.dobo

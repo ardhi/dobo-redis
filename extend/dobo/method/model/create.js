@@ -1,4 +1,4 @@
-import { getIndexName, getPrefixName } from '../../../lib/misc.js'
+import { getIndexName, getPrefixName } from '../../../../lib/misc.js'
 
 async function modelCreate ({ schema, options = {} }) {
   const { isEmpty } = this.lib._

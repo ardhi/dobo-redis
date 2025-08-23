@@ -1,5 +1,5 @@
-import { getIndexName } from '../../../lib/misc.js'
-import buildQuery from '../../../lib/build-query.js'
+import { getIndexName } from '../../../../lib/misc.js'
+import buildQuery from '../../../../lib/build-query.js'
 
 async function recordFind ({ schema, filter = {}, options = {} } = {}) {
   const { getInfo } = this.app.dobo
