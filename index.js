@@ -1,11 +1,12 @@
 async function factory (pkgName) {
   const me = this
 
-  return class DoboRedis extends this.lib.Plugin {
+  class DoboRedis extends this.lib.Plugin {
+    static alias = 'dbredis'
+    static dependencies = ['dobo']
+
     constructor () {
       super(pkgName, me.app)
-      this.alias = 'dbredis'
-      this.dependencies = ['dobo']
       this.config = {
         connections: []
       }
@@ -17,6 +18,8 @@ async function factory (pkgName) {
       }
     }
   }
+
+  return DoboRedis
 }
 
 export default factory
