@@ -1,7 +1,7 @@
 import { getIndexName, getPrefixName } from '../../../../lib/misc.js'
 
 async function modelCreate ({ schema, options = {} }) {
-  const { isEmpty } = this.lib._
+  const { isEmpty } = this.app.lib._
   const { getInfo } = this.app.dobo
   const { instance } = getInfo(schema)
 

@@ -1,7 +1,7 @@
 import { createClient } from 'redis'
 
 async function instantiate ({ connection, schemas, noRebuild }) {
-  const { pick } = this.lib._
+  const { pick } = this.app.lib._
   this.instances = this.instances ?? []
   const instance = pick(connection, ['name', 'type'])
   const { connection: conn } = connection

@@ -2,7 +2,7 @@ import { getPrefixName } from '../../../../lib/misc.js'
 import getRecord from './get.js'
 
 async function recordUpdate ({ schema, id, body, options = {} } = {}) {
-  const { merge, omit } = this.lib._
+  const { merge, omit } = this.app.lib._
   const { getInfo } = this.app.dobo
   const { noResult } = options
   const { instance } = getInfo(schema)

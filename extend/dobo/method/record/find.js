@@ -3,8 +3,8 @@ import buildQuery from '../../../../lib/build-query.js'
 
 async function recordFind ({ schema, filter = {}, options = {} } = {}) {
   const { getInfo } = this.app.dobo
-  const { omit } = this.lib._
-  const { paginate } = this.lib.aneka
+  const { omit } = this.app.lib._
+  const { paginate } = this.app.lib.aneka
   const { instance } = getInfo(schema)
   const { prepPagination } = this.app.dobo
   const { limit, sort, page } = await prepPagination(filter, schema)
