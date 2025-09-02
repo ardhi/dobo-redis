@@ -4,7 +4,7 @@ async function modelClear ({ schema, options = {} }) {
 
   const indexes = await instance.client.ft._list()
   for (const index of indexes) {
-    if (!index.startsWith(`${this.name}:idx:`)) continue
+    if (!index.startsWith(`${this.ns}:idx:`)) continue
     await instance.client.ft.drop(index)
   }
 }
