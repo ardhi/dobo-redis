@@ -1,6 +1,17 @@
+/**
+ * Plugin factory
+ *
+ * @param {string} pkgName - NPM package name
+ * @returns {class}
+ */
 async function factory (pkgName) {
   const me = this
 
+  /**
+   * DoboRedis class
+   *
+   * @class
+   */
   class DoboRedis extends this.app.pluginClass.base {
     static alias = 'dbredis'
     static dependencies = ['dobo']
