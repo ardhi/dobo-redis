@@ -12,20 +12,18 @@ async function factory (pkgName) {
    *
    * @class
    */
-  class DoboRedis extends this.app.pluginClass.base {
+  class DoboRedis extends this.app.baseClass.Base {
     static alias = 'dbredis'
     static dependencies = ['dobo']
 
     constructor () {
       super(pkgName, me.app)
-      this.config = {
-        connections: []
-      }
+      this.config = {}
     }
 
-    exit = () => {
-      for (const instance of this.instances) {
-        instance.client.destroy()
+    exit = async () => {
+      for (const model of this.models) {
+        model.connection.client.destroy()
       }
     }
   }
