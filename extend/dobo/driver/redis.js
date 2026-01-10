@@ -2,12 +2,12 @@ import { createClient } from 'redis'
 import queryBuilder from '../../../lib/query-builder.js'
 
 async function redisDriverFactory () {
-  const { Driver } = this.app.dobo.baseClass
+  const { DoboDriver } = this.app.baseClass
   const { isEmpty, omit, merge } = this.app.lib._
 
-  class RedisDriver extends Driver {
-    constructor (plugin, options) {
-      super(plugin)
+  class DoboRedisDriver extends DoboDriver {
+    constructor (plugin, name, options) {
+      super(plugin, name)
       this.idField.name = 'id'
       this.support.propType.datetime = false
     }
@@ -72,12 +72,6 @@ async function redisDriverFactory () {
     async createRecord (model, body = {}, options = {}) {
       const prefix = this._getPrefixName(model)
       const key = `${prefix}:${body.id}`
-      try {
-        await this.getRecord(model, body.id)
-        throw new Error('exists')
-      } catch (err) {
-        if (err.message === 'exists') throw this.plugin.error('recordExists%s%s', body.id, model.name)
-      }
       await model.connection.client.hSet(key, body)
       if (options.noResult) return
       const result = await this.getRecord(model, body.id)
@@ -88,15 +82,14 @@ async function redisDriverFactory () {
       const prefix = this._getPrefixName(model)
       const key = `${prefix}:${id}`
       const result = await model.connection.client.hGetAll(key)
-      if (isEmpty(result)) throw this.plugin.error('recordNotFound%s%s', id, model.name, { statusCode: 404 })
       return { data: result }
     }
 
     async updateRecord (model, id, body = {}, options = {}) {
       const prefix = this._getPrefixName(model)
       const key = `${prefix}:${id}`
-      const old = options.noResult ? undefined : (await this.getRecord(model, id))
-      const nbody = omit(merge({}, old.data, body), ['id'])
+      const old = options.noResult ? undefined : options._data
+      const nbody = omit(merge({}, old, body), ['id'])
       await model.connection.client.hSet(key, nbody)
       if (options.noResult) return
       const result = await this.getRecord(model, id)
@@ -106,10 +99,10 @@ async function redisDriverFactory () {
     async removeRecord (model, id, options = {}) {
       const prefix = this._getPrefixName(model)
       const key = `${prefix}:${id}`
-      const rec = options.noResult ? undefined : (await this._getRecord(model, id))
+      const rec = options.noResult ? undefined : options._data
       await model.connection.client.del(key)
       if (options.noResult) return
-      return { oldData: rec.data }
+      return { oldData: rec }
     }
 
     async clearRecord (model, options = {}) {
@@ -167,7 +160,8 @@ async function redisDriverFactory () {
     }
   }
 
-  return RedisDriver
+  this.app.baseClass.DoboRedisDriver = DoboRedisDriver
+  return DoboRedisDriver
 }
 
 export default redisDriverFactory
