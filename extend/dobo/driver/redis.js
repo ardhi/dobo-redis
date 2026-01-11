@@ -7,7 +7,7 @@ async function redisDriverFactory () {
 
   class DoboRedisDriver extends DoboDriver {
     constructor (plugin, name, options) {
-      super(plugin, name)
+      super(plugin, name, options)
       this.idField.name = 'id'
       this.support.propType.datetime = false
     }
